@@ -61,9 +61,9 @@ class ChiaExporter:
     price_btc_satoshi_gauge = Gauge('chia_price_btc_satoshi', 'Current Chia price in BTC satoshi')
     price_eth_gwei_gauge = Gauge('chia_price_eth_gwei', 'Current Chia price in ETH gwei')
 
-    def __init__(self, port: int) -> None:
+    def __init__(self, port: int, addr: str) -> None:
         self.log = logging.getLogger(__name__)
-        start_http_server(port)
+        start_http_server(port, addr)
 
     def process_event(self, event: ChiaEvent) -> None:
         if isinstance(event, HarvesterPlotsEvent):

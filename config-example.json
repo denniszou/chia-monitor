@@ -1,5 +1,6 @@
 {
     "exporter_port": 8000,
+    "exporter_addr": "0.0.0.0",
     "notifications": {
         "enable": true,
         "status_interval_minutes": 60,

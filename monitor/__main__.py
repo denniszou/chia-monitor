@@ -113,6 +113,7 @@ if __name__ == "__main__":
 
     try:
         exporter_port = config["exporter_port"]
+        exporter_addr = config["exporter_addr"]
         enable_notifications = config["notifications"]["enable"]
         status_url = config["notifications"]["status_service_url"]
         alert_url = config["notifications"]["alert_service_url"]
@@ -125,7 +126,7 @@ if __name__ == "__main__":
         )
         sys.exit(1)
 
-    exporter = ChiaExporter(exporter_port)
+    exporter = ChiaExporter(exporter_port, exporter_addr)
     if enable_notifications:
         notifier = Notifier(status_url, alert_url, status_interval_minutes, lost_plots_alert_threshold,
                             disable_proof_found_alert)
