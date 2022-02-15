@@ -29,6 +29,12 @@
       "version": "7.5.3"
     },
     {
+      "type": "panel",
+      "id": "graph",
+      "name": "Graph",
+      "version": ""
+    },
+    {
       "type": "datasource",
       "id": "prometheus",
       "name": "Prometheus",
@@ -59,11 +65,11 @@
   "gnetId": 14544,
   "graphTooltip": 1,
   "id": null,
-  "iteration": 1626984060695,
+  "iteration": 1643221537828,
   "links": [],
   "panels": [
     {
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -150,7 +156,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "purple",
+                "color": "blue",
                 "value": null
               }
             ]
@@ -188,7 +194,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum(chia_plot_size)",
+          "expr": "sum(chia_plot_size{type=\"$PlotType\"})",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -199,7 +205,7 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "OG Plot Size Delta",
+      "title": "Plot Size Delta",
       "type": "stat"
     },
     {
@@ -217,7 +223,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "purple",
+                "color": "blue",
                 "value": null
               }
             ]
@@ -255,7 +261,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum(chia_plot_count)",
+          "expr": "sum(chia_plot_count{type=\"$PlotType\"})",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -266,146 +272,11 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "OG Plot Size Delta",
+      "title": "Plot Count Delta",
       "type": "stat"
     },
     {
       "datasource": "${DS_PROMETHEUS}",
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "decimals": 3,
-          "mappings": [],
-          "max": 99.8,
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "blue",
-                "value": null
-              }
-            ]
-          },
-          "unit": "bytes"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 3,
-        "x": 12,
-        "y": 0
-      },
-      "id": 111,
-      "links": [],
-      "maxDataPoints": 999999,
-      "options": {
-        "colorMode": "background",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "horizontal",
-        "reduceOptions": {
-          "calcs": [
-            "diff"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "text": {},
-        "textMode": "auto"
-      },
-      "pluginVersion": "7.5.3",
-      "repeatDirection": "h",
-      "targets": [
-        {
-          "exemplar": true,
-          "expr": "sum(chia_portable_plot_size)",
-          "format": "time_series",
-          "interval": "",
-          "intervalFactor": 2,
-          "legendFormat": "",
-          "refId": "A",
-          "step": 240
-        }
-      ],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "Portable Plot Size Delta",
-      "type": "stat"
-    },
-    {
-      "datasource": "${DS_PROMETHEUS}",
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "decimals": 0,
-          "mappings": [],
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "blue",
-                "value": null
-              }
-            ]
-          },
-          "unit": "plots"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 3,
-        "x": 15,
-        "y": 0
-      },
-      "id": 106,
-      "links": [],
-      "maxDataPoints": 999999,
-      "options": {
-        "colorMode": "background",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "horizontal",
-        "reduceOptions": {
-          "calcs": [
-            "diff"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "text": {},
-        "textMode": "auto"
-      },
-      "pluginVersion": "7.5.3",
-      "repeatDirection": "h",
-      "targets": [
-        {
-          "exemplar": true,
-          "expr": "sum(chia_portable_plot_count)",
-          "format": "time_series",
-          "interval": "",
-          "intervalFactor": 2,
-          "legendFormat": "",
-          "refId": "A",
-          "step": 240
-        }
-      ],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "Portable Plot Size Delta",
-      "type": "stat"
-    },
-    {
-      "datasource": null,
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -431,7 +302,7 @@
       "gridPos": {
         "h": 3,
         "w": 3,
-        "x": 18,
+        "x": 12,
         "y": 0
       },
       "id": 118,
@@ -467,7 +338,7 @@
       "type": "stat"
     },
     {
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -493,7 +364,7 @@
       "gridPos": {
         "h": 3,
         "w": 3,
-        "x": 21,
+        "x": 15,
         "y": 0
       },
       "id": 77,
@@ -529,7 +400,67 @@
       "type": "stat"
     },
     {
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#22a6b3",
+                "value": null
+              }
+            ]
+          },
+          "unit": "percentunit"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 18,
+        "y": 0
+      },
+      "id": 116,
+      "maxDataPoints": 999999,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "7.5.3",
+      "targets": [
+        {
+          "exemplar": true,
+          "expr": "chia_pool_points_acknowledged_24h{url=\"$Pool\"} / chia_pool_points_found_24h{url=\"$Pool\"}",
+          "interval": "",
+          "legendFormat": "Success Rate",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Points Success Rate 24h",
+      "type": "stat"
+    },
+    {
+      "datasource": "${DS_PROMETHEUS}",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -595,7 +526,7 @@
       "type": "gauge"
     },
     {
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -657,7 +588,7 @@
       "type": "gauge"
     },
     {
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -719,7 +650,7 @@
       "type": "gauge"
     },
     {
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -730,7 +661,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "purple",
+                "color": "blue",
                 "value": null
               }
             ]
@@ -766,7 +697,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum(chia_plot_size)",
+          "expr": "sum(chia_plot_size{type=\"$PlotType\"})",
           "interval": "",
           "legendFormat": "Plot Size",
           "refId": "A"
@@ -774,11 +705,11 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "OG Plot Size",
+      "title": "Plot Size",
       "type": "stat"
     },
     {
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -789,7 +720,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "purple",
+                "color": "blue",
                 "value": null
               }
             ]
@@ -825,7 +756,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum(chia_plot_count)",
+          "expr": "sum(chia_plot_count{type=\"$PlotType\"})",
           "interval": "",
           "legendFormat": "Plot Count",
           "refId": "A"
@@ -833,129 +764,11 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "OG Plot Count",
+      "title": "Plot Count",
       "type": "stat"
     },
     {
-      "datasource": null,
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "blue",
-                "value": null
-              }
-            ]
-          },
-          "unit": "bytes"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 6,
-        "w": 3,
-        "x": 12,
-        "y": 3
-      },
-      "id": 107,
-      "maxDataPoints": 999999,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "text": {},
-        "textMode": "auto"
-      },
-      "pluginVersion": "7.5.3",
-      "targets": [
-        {
-          "exemplar": true,
-          "expr": "sum(chia_portable_plot_size)",
-          "interval": "",
-          "legendFormat": "Plot Size",
-          "refId": "A"
-        }
-      ],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "Portable Plot Size",
-      "type": "stat"
-    },
-    {
-      "datasource": null,
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "blue",
-                "value": null
-              }
-            ]
-          },
-          "unit": "plots"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 6,
-        "w": 3,
-        "x": 15,
-        "y": 3
-      },
-      "id": 108,
-      "maxDataPoints": 999999,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "text": {},
-        "textMode": "auto"
-      },
-      "pluginVersion": "7.5.3",
-      "targets": [
-        {
-          "exemplar": true,
-          "expr": "sum(chia_portable_plot_count)",
-          "interval": "",
-          "legendFormat": "Plot Count",
-          "refId": "A"
-        }
-      ],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "Portable Plot Count",
-      "type": "stat"
-    },
-    {
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -978,7 +791,7 @@
       "gridPos": {
         "h": 3,
         "w": 6,
-        "x": 18,
+        "x": 12,
         "y": 3
       },
       "id": 71,
@@ -1002,9 +815,9 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "18.75 / ((sum(chia_plot_size) + sum(chia_portable_plot_size)) / sum(chia_network_space))",
+          "expr": "18.75 / (sum(chia_plot_size) / sum(chia_network_space))",
           "interval": "",
-          "legendFormat": "Plot Size",
+          "legendFormat": "",
           "refId": "A"
         }
       ],
@@ -1014,7 +827,67 @@
       "type": "stat"
     },
     {
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#22a6b3",
+                "value": null
+              }
+            ]
+          },
+          "unit": "points"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 18,
+        "y": 3
+      },
+      "id": 114,
+      "maxDataPoints": 999999,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "7.5.3",
+      "targets": [
+        {
+          "exemplar": true,
+          "expr": "chia_pool_points_found_24h{url=\"$Pool\"}",
+          "interval": "",
+          "legendFormat": "Points",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Points Found 24h",
+      "type": "stat"
+    },
+    {
+      "datasource": "${DS_PROMETHEUS}",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1037,7 +910,7 @@
       "gridPos": {
         "h": 3,
         "w": 6,
-        "x": 18,
+        "x": 12,
         "y": 6
       },
       "id": 75,
@@ -1073,7 +946,67 @@
       "type": "stat"
     },
     {
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#22a6b3",
+                "value": null
+              }
+            ]
+          },
+          "unit": "points"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 18,
+        "y": 6
+      },
+      "id": 119,
+      "maxDataPoints": 999999,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "7.5.3",
+      "targets": [
+        {
+          "exemplar": true,
+          "expr": "chia_pool_points_acknowledged_24h{url=\"$Pool\"}",
+          "interval": "",
+          "legendFormat": "Points",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Points Acknowledged 24h",
+      "type": "stat"
+    },
+    {
+      "datasource": "${DS_PROMETHEUS}",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1140,7 +1073,7 @@
       "type": "bargauge"
     },
     {
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1152,7 +1085,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "purple",
+                "color": "blue",
                 "value": null
               }
             ]
@@ -1186,7 +1119,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "chia_plot_size",
+          "expr": "chia_plot_size{type=\"$PlotType\"}",
           "interval": "",
           "legendFormat": "{{ host }}",
           "refId": "A"
@@ -1194,69 +1127,11 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "OG Plot Size Per Harvester",
+      "title": "Plot Size Per Harvester",
       "type": "bargauge"
     },
     {
-      "datasource": null,
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "blue",
-                "value": null
-              }
-            ]
-          },
-          "unit": "bytes"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 6,
-        "x": 12,
-        "y": 9
-      },
-      "id": 110,
-      "maxDataPoints": 999999,
-      "options": {
-        "displayMode": "gradient",
-        "orientation": "horizontal",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showUnfilled": true,
-        "text": {}
-      },
-      "pluginVersion": "7.5.3",
-      "targets": [
-        {
-          "exemplar": true,
-          "expr": "chia_portable_plot_size",
-          "interval": "",
-          "legendFormat": "{{ host }}",
-          "refId": "A"
-        }
-      ],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "Portable Plot Size Per Harvester",
-      "type": "bargauge"
-    },
-    {
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -1279,7 +1154,7 @@
       "gridPos": {
         "h": 4,
         "w": 2,
-        "x": 18,
+        "x": 12,
         "y": 9
       },
       "id": 125,
@@ -1315,7 +1190,7 @@
       "type": "stat"
     },
     {
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -1338,7 +1213,7 @@
       "gridPos": {
         "h": 4,
         "w": 2,
-        "x": 20,
+        "x": 14,
         "y": 9
       },
       "id": 76,
@@ -1374,7 +1249,7 @@
       "type": "stat"
     },
     {
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -1398,7 +1273,7 @@
       "gridPos": {
         "h": 4,
         "w": 2,
-        "x": 22,
+        "x": 16,
         "y": 9
       },
       "id": 98,
@@ -1434,8 +1309,186 @@
       "type": "stat"
     },
     {
+      "datasource": "${DS_PROMETHEUS}",
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#22a6b3",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 2,
+        "x": 18,
+        "y": 9
+      },
+      "id": 124,
+      "maxDataPoints": 999999,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "7.5.3",
+      "targets": [
+        {
+          "exemplar": true,
+          "expr": "chia_current_pool_points{url=\"$Pool\"}",
+          "interval": "",
+          "legendFormat": "Difficulty",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Current Points",
+      "type": "stat"
+    },
+    {
+      "datasource": "${DS_PROMETHEUS}",
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#22a6b3",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 2,
+        "x": 20,
+        "y": 9
+      },
+      "id": 113,
+      "maxDataPoints": 999999,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "7.5.3",
+      "targets": [
+        {
+          "exemplar": true,
+          "expr": "chia_current_pool_difficulty{url=\"$Pool\"}",
+          "interval": "",
+          "legendFormat": "Difficulty",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Pool Difficulty",
+      "type": "stat"
+    },
+    {
+      "datasource": "${DS_PROMETHEUS}",
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#22a6b3",
+                "value": null
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 2,
+        "x": 22,
+        "y": 9
+      },
+      "id": 128,
+      "maxDataPoints": 999999,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "7.5.3",
+      "targets": [
+        {
+          "exemplar": true,
+          "expr": "chia_num_pool_errors_24h{url=\"$Pool\"}",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Pool Errors 24h",
+      "type": "stat"
+    },
+    {
       "cacheTimeout": null,
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1495,7 +1548,7 @@
       "type": "bargauge"
     },
     {
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1553,7 +1606,7 @@
       "type": "bargauge"
     },
     {
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1565,7 +1618,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "purple",
+                "color": "blue",
                 "value": null
               }
             ]
@@ -1599,7 +1652,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "chia_plot_count",
+          "expr": "chia_plot_count{type=\"$PlotType\"}",
           "interval": "",
           "legendFormat": "{{ host }}",
           "refId": "A"
@@ -1607,28 +1660,26 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "OG Plot Count Per Harvester",
+      "title": "Plot Count Per Harvester",
       "type": "bargauge"
     },
     {
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "thresholds"
           },
           "mappings": [],
-          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "blue",
+                "color": "orange",
                 "value": null
               }
             ]
-          },
-          "unit": "plots"
+          }
         },
         "overrides": []
       },
@@ -1638,11 +1689,12 @@
         "x": 12,
         "y": 13
       },
-      "id": 102,
-      "maxDataPoints": 999999,
+      "id": 127,
       "options": {
-        "displayMode": "gradient",
-        "orientation": "horizontal",
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -1650,26 +1702,27 @@
           "fields": "",
           "values": false
         },
-        "showUnfilled": true,
-        "text": {}
+        "text": {},
+        "textMode": "auto"
       },
       "pluginVersion": "7.5.3",
       "targets": [
         {
           "exemplar": true,
-          "expr": "chia_portable_plot_count",
+          "expr": "round(avg_over_time(chia_mempool_size[5m]))",
           "interval": "",
-          "legendFormat": "{{ host }}",
+          "intervalFactor": 1,
+          "legendFormat": "Mempool Size",
           "refId": "A"
         }
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Portable Plot Count Per Harvester",
-      "type": "bargauge"
+      "title": "Mempool Size",
+      "type": "stat"
     },
     {
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -1682,7 +1735,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "orange",
+                "color": "purple",
                 "value": null
               }
             ]
@@ -1730,7 +1783,7 @@
       "type": "stat"
     },
     {
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -1744,7 +1797,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "orange",
+                "color": "purple",
                 "value": null
               }
             ]
@@ -1792,7 +1845,7 @@
       "type": "stat"
     },
     {
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1850,302 +1903,127 @@
       "type": "bargauge"
     },
     {
-      "datasource": null,
-      "description": "",
+      "aliasColors": {
+        "Average": "green",
+        "Max": "blue",
+        "Min": "orange"
+      },
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "${DS_PROMETHEUS}",
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "#22a6b3",
-                "value": null
-              }
-            ]
-          },
-          "unit": "points"
+          "unit": "s"
         },
         "overrides": []
       },
+      "fill": 5,
+      "fillGradient": 10,
       "gridPos": {
-        "h": 3,
-        "w": 6,
+        "h": 6,
+        "w": 24,
         "x": 0,
         "y": 17
       },
-      "id": 114,
-      "maxDataPoints": 999999,
-      "options": {
-        "colorMode": "background",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "text": {},
-        "textMode": "auto"
+      "hiddenSeries": false,
+      "id": 130,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
       },
+      "lines": true,
+      "linewidth": 1,
+      "maxDataPoints": 999999,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
       "pluginVersion": "7.5.3",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
       "targets": [
         {
           "exemplar": true,
-          "expr": "chia_pool_points_found_24h{url=\"$Pool\"}",
+          "expr": "sum(rate(chia_lookup_time_seconds_sum[5m])) / sum(rate(chia_lookup_time_seconds_count[1m]))",
+          "hide": false,
           "interval": "",
-          "legendFormat": "Points",
+          "legendFormat": "Average",
           "refId": "A"
-        }
-      ],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "Points Found 24h",
-      "type": "stat"
-    },
-    {
-      "datasource": null,
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "#22a6b3",
-                "value": null
-              }
-            ]
-          },
-          "unit": "points"
         },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 6,
-        "x": 6,
-        "y": 17
-      },
-      "id": 119,
-      "maxDataPoints": 999999,
-      "options": {
-        "colorMode": "background",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "text": {},
-        "textMode": "auto"
-      },
-      "pluginVersion": "7.5.3",
-      "targets": [
         {
           "exemplar": true,
-          "expr": "chia_pool_points_acknowledged_24h{url=\"$Pool\"}",
+          "expr": "histogram_quantile(1., sum(rate(chia_lookup_time_seconds_bucket[1m])) by (le))",
+          "hide": false,
           "interval": "",
-          "legendFormat": "Points",
-          "refId": "A"
+          "intervalFactor": 1,
+          "legendFormat": "Max",
+          "refId": "C"
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "Points Acknowledged 24h",
-      "type": "stat"
-    },
-    {
-      "datasource": null,
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "#22a6b3",
-                "value": null
-              }
-            ]
-          },
-          "unit": "percentunit"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 6,
-        "x": 12,
-        "y": 17
-      },
-      "id": 116,
-      "maxDataPoints": 999999,
-      "options": {
-        "colorMode": "background",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "horizontal",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "text": {},
-        "textMode": "auto"
-      },
-      "pluginVersion": "7.5.3",
-      "targets": [
+      "thresholds": [
         {
-          "exemplar": true,
-          "expr": "chia_pool_points_acknowledged_24h{url=\"$Pool\"} / chia_pool_points_found_24h{url=\"$Pool\"}",
-          "interval": "",
-          "legendFormat": "Success Rate",
-          "refId": "A"
+          "$$hashKey": "object:567",
+          "colorMode": "critical",
+          "fill": true,
+          "line": true,
+          "op": "gt",
+          "value": 5,
+          "yaxis": "left"
         }
       ],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
-      "title": "Points Success Rate 24h",
-      "type": "stat"
-    },
-    {
-      "datasource": null,
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "#22a6b3",
-                "value": null
-              }
-            ]
-          }
-        },
-        "overrides": []
+      "title": "Harvester Lookup Times",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
       },
-      "gridPos": {
-        "h": 3,
-        "w": 3,
-        "x": 18,
-        "y": 17
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
       },
-      "id": 124,
-      "maxDataPoints": 999999,
-      "options": {
-        "colorMode": "background",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "text": {},
-        "textMode": "auto"
-      },
-      "pluginVersion": "7.5.3",
-      "targets": [
+      "yaxes": [
         {
-          "exemplar": true,
-          "expr": "chia_current_pool_points{url=\"$Pool\"}",
-          "interval": "",
-          "legendFormat": "Difficulty",
-          "refId": "A"
-        }
-      ],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "Current Points",
-      "type": "stat"
-    },
-    {
-      "datasource": null,
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "#22a6b3",
-                "value": null
-              }
-            ]
-          }
+          "$$hashKey": "object:27",
+          "format": "s",
+          "label": null,
+          "logBase": 1,
+          "max": "6.5",
+          "min": "0",
+          "show": true
         },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 3,
-        "x": 21,
-        "y": 17
-      },
-      "id": 113,
-      "maxDataPoints": 999999,
-      "options": {
-        "colorMode": "background",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "text": {},
-        "textMode": "auto"
-      },
-      "pluginVersion": "7.5.3",
-      "targets": [
         {
-          "exemplar": true,
-          "expr": "chia_current_pool_difficulty{url=\"$Pool\"}",
-          "interval": "",
-          "legendFormat": "Difficulty",
-          "refId": "A"
+          "$$hashKey": "object:28",
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "Pool Difficulty",
-      "type": "stat"
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
     }
   ],
   "refresh": "15s",
@@ -2180,6 +2058,33 @@
         "tagsQuery": "",
         "type": "query",
         "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "${DS_PROMETHEUS}",
+        "definition": "label_values(chia_plot_count, type)",
+        "description": null,
+        "error": null,
+        "hide": 0,
+        "includeAll": false,
+        "label": null,
+        "multi": false,
+        "name": "PlotType",
+        "options": [],
+        "query": {
+          "query": "label_values(chia_plot_count, type)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 2,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
       }
     ]
   },
@@ -2200,5 +2105,5 @@
   "timezone": "",
   "title": "Chia Monitor",
   "uid": "URpClhZga",
-  "version": 85
+  "version": 111
 }

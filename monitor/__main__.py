@@ -12,8 +12,9 @@ from sqlalchemy.exc import OperationalError
 
 from monitor.collectors import RpcCollector, WsCollector
 from monitor.collectors.price_collector import PriceCollector
-from monitor.database import ChiaEvent, async_session
+from monitor.database import ChiaEvent, session
 from monitor.exporter import ChiaExporter
+from monitor.logger import ChiaLogger
 from monitor.notifier import Notifier
 
 chia_config = load_config(DEFAULT_ROOT_PATH, "config.yaml")
@@ -33,10 +34,10 @@ def initilize_logging():
     logger.setLevel(logging.INFO)
 
 
-async def persist_event(event: ChiaEvent):
-    async with async_session.begin() as db_session:
+def persist_event(event: ChiaEvent):
+    with session.begin() as db_session:
         db_session.add(event)
-        await db_session.commit()
+        db_session.commit()
 
 
 async def aggregator(exporter: ChiaExporter, notifier: Optional[Notifier], rpc_refresh_interval: int,
@@ -44,48 +45,44 @@ async def aggregator(exporter: ChiaExporter, notifier: Optional[Notifier], rpc_r
     rpc_collector = None
     ws_collector = None
     event_queue = Queue()
+    logger = ChiaLogger()
 
     try:
         logging.info("🔌 Creating RPC Collector...")
-        rpc_collector = await RpcCollector.create(DEFAULT_ROOT_PATH, chia_config, event_queue,
-                                                  rpc_refresh_interval)
+        rpc_collector = await RpcCollector.create(DEFAULT_ROOT_PATH, chia_config, event_queue, rpc_refresh_interval)
     except Exception as e:
-        logging.warning(
-            f"Failed to create RPC collector. Continuing without it. {type(e).__name__}: {e}")
+        logging.warning(f"Failed to create RPC collector. Continuing without it. {type(e).__name__}: {e}")
 
     try:
         logging.info("🔌 Creating WebSocket Collector...")
         ws_collector = await WsCollector.create(DEFAULT_ROOT_PATH, chia_config, event_queue)
     except Exception as e:
-        logging.warning(
-            f"Failed to create WebSocket collector. Continuing without it. {type(e).__name__}: {e}")
+        logging.warning(f"Failed to create WebSocket collector. Continuing without it. {type(e).__name__}: {e}")
 
     try:
         logging.info("🔌 Creating Price Collector...")
-        price_collector = await PriceCollector.create(DEFAULT_ROOT_PATH, chia_config, event_queue,
-                                                      price_refresh_interval)
+        price_collector = await PriceCollector.create(DEFAULT_ROOT_PATH, chia_config, event_queue, price_refresh_interval)
     except Exception as e:
-        logging.warning(
-            f"Failed to create Price collector. Continuing without it. {type(e).__name__}: {e}")
+        logging.warning(f"Failed to create Price collector. Continuing without it. {type(e).__name__}: {e}")
 
     if rpc_collector and ws_collector:
         logging.info("🚀 Starting monitoring loop!")
-        asyncio.create_task(rpc_collector.task())
-        asyncio.create_task(ws_collector.task())
+        rpc_task = asyncio.create_task(rpc_collector.task())
+        ws_task = asyncio.create_task(ws_collector.task())
         if notifier is not None:
-            asyncio.create_task(notifier.task())
+            notifier.start()
         if price_collector is not None:
             asyncio.create_task(price_collector.task())
         while True:
             try:
                 event = await event_queue.get()
                 exporter.process_event(event)
-                await persist_event(event)
+                logger.process_event(event)
+                persist_event(event)
 
             except OperationalError:
-                logging.error(
-                    f"Failed to persist event to DB. Please initialize DB using: 'pipenv run alembic upgrade head'"
-                )
+                logging.exception(
+                    f"Failed to persist event to DB. Please initialize DB using: 'pipenv run alembic upgrade head'")
                 break
 
             except asyncio.CancelledError:
@@ -96,9 +93,13 @@ async def aggregator(exporter: ChiaExporter, notifier: Optional[Notifier], rpc_r
 
     logging.info("🛑 Shutting down!")
     if rpc_collector:
+        rpc_task.cancel()
         await rpc_collector.close()
     if ws_collector:
+        ws_task.cancel()
         await ws_collector.close()
+    if notifier:
+        notifier.stop()
 
 
 def read_config():
@@ -121,8 +122,7 @@ if __name__ == "__main__":
         exporter_port = config["exporter_port"]
         exporter_addr = config["exporter_addr"]
         rpc_refresh_interval = config["rpc_collector"]["refresh_interval_seconds"]
-        price_refresh_interval = enable_notifications = config["price_collector"][
-            "refresh_interval_seconds"]
+        price_refresh_interval = enable_notifications = config["price_collector"]["refresh_interval_seconds"]
         enable_notifications = config["notifications"]["enable"]
         notifications_refresh_interval = config["notifications"]["refresh_interval_seconds"]
         status_url = config["notifications"]["status_service_url"]
