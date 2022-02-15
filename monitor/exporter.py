@@ -58,7 +58,6 @@ class ChiaExporter:
 
     last_signage_point: SignagePointEvent = None
     def __init__(self, port: int, addr: str) -> None:
-        self.log = logging.getLogger(__name__)
         start_http_server(port, addr)
 
     def process_event(self, event: ChiaEvent) -> None:
